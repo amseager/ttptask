@@ -1,0 +1,92 @@
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+	<changeSet id="create-table-affiliate-client-map" author="amikhalev">
+		<createTable tableName="AFFILIATE_CLIENT_MAP">
+			<column name="client_id" type="uuid">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="referral_code" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="click_id" type="uuid">
+				<constraints nullable="false"/>
+			</column>
+			<column name="client_ip" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="user_agent" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="creation_date" type="timestamp with time zone">
+				<constraints nullable="false"/>
+			</column>
+			<column name="version" type="integer"/>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="create-table-affiliate-transactions" author="amikhalev">
+		<createTable tableName="AFFILIATE_TRANSACTIONS">
+			<column name="conversion_id" type="integer">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="client_id" type="uuid">
+				<constraints nullable="false"/>
+			</column>
+			<column name="referral_code" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="order_id" type="uuid">
+				<constraints nullable="false"/>
+			</column>
+			<column name="currency" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="order_amount" type="numeric">
+				<constraints nullable="false"/>
+			</column>
+			<column name="conversion_amount" type="numeric">
+				<constraints nullable="false"/>
+			</column>
+			<column name="transaction_type" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="creation_date" type="timestamp with time zone">
+				<constraints nullable="false"/>
+			</column>
+			<column name="version" type="integer"/>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="create-table-failed-calls" author="amikhalev">
+		<createTable tableName="FAILED_CALLS">
+			<column name="id" type="bigint">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="client_id" type="uuid">
+				<constraints nullable="false"/>
+			</column>
+			<column name="request_type" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="payload" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="reason" type="varchar">
+				<constraints nullable="false"/>
+			</column>
+			<column name="time" type="timestamp with time zone">
+				<constraints nullable="false"/>
+			</column>
+			<column name="processed" type="boolean">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+
+		<createSequence sequenceName="failed_call_id_seq" startValue="1" minValue="1" cacheSize="10"/>
+	</changeSet>
+
+</databaseChangeLog>

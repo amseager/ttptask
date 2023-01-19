@@ -1,0 +1,144 @@
+openapi: "3.0.3"
+info:
+  title: TTP task
+  version: "@project.version@"
+servers:
+  - description: Default
+    url: "/"
+
+paths:
+
+  /register/client:
+    post:
+      tags:
+        - client
+      summary: Register a client
+      operationId: registerClient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterClientRequest"
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterClientResponse"
+          description: Successful response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Response with an error
+
+  /register/conversion:
+    post:
+      tags:
+        - conversion
+      summary: Register a conversion
+      operationId: registerConversion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterConversionRequest"
+        required: true
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterConversionResponse"
+          description: Successful response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+          description: Response with an error
+
+components:
+
+  schemas:
+
+    ErrorResponse:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+    RegisterClientRequest:
+      type: object
+      description: Register client request
+      required:
+        - clientId
+        - referalCode
+        - landingPage
+        - userAgent
+        - ip
+      properties:
+        clientId:
+          type: string
+          format: uuid
+        referalCode:
+          type: string
+        landingPage:
+          type: string
+        userAgent:
+          type: string
+        ip:
+          type: string
+
+    RegisterClientResponse:
+      type: object
+      description: Register client response
+      required:
+        - clickId
+      properties:
+        clickId:
+          type: string
+          format: uuid
+
+    RegisterConversionRequest:
+      type: object
+      description: Register conversion request
+      required:
+        - orderId
+        - totalPrice
+        - clientId
+        - transactionType
+      properties:
+        orderId:
+          type: string
+          format: uuid
+        totalPrice:
+          type: number
+          minimum: 0
+        clientId:
+          type: string
+          format: uuid
+        transactionType:
+          $ref: "#/components/schemas/TransactionType"
+
+    TransactionType:
+      type: string
+      enum:
+        - New
+        - Reset
+        - Extend
+
+    RegisterConversionResponse:
+      type: object
+      description: Register conversion response
+      required:
+        - conversionId
+      properties:
+        conversionId:
+          type: integer

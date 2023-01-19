@@ -1,0 +1,44 @@
+server:
+  port: 10000
+
+spring:
+  application:
+    name: TTP task
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ttp_task
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    url: /v3/api-docs.yml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+app-configs:
+  currency: EUR
+
+external:
+  vendor:
+    root-uri: http://exercise
+    connection-timeout: 5s
+    read-timeout: 10s
+    connection-manager:
+      default-max-per-route: 50
+      max-total: 50
+    max-attempts: 4   # 1 initial attempt + 3 retries
+    retry-time-interval: 2s
+    use-stubs: false

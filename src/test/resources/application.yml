@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:13.7:///test?TC_INITFUNCTION=com.example.ttptask.configuration.TestDbInitializer::init
+  jpa:
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+springdoc:
+  api-docs:
+    enabled: false
+
+logging:
+  level:
+    ROOT: INFO
+    org.apache.http: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+app-configs:
+  currency: EUR
+
+wiremock:
+  reset-mappings-after-each-test: true
+
+external:
+  vendor:
+    root-uri: http://localhost:${wiremock.server.port}
+    connection-timeout: 5s
+    read-timeout: 10s
+    connection-manager:
+      validate-after-inactivity: 10
+    max-attempts: 2
+    retry-time-interval: 1s
+    use-stubs: false
